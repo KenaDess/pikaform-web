@@ -13,7 +13,7 @@
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="home-pikaform.html">
-<link rel="lazy-import" href="register-login.html">
+<link rel="lazy-import" href="register-hunter.html">
 <link rel="lazy-import" href="hunter-profile.html">
 <link rel="lazy-import" href="not-found.html">
 
@@ -74,7 +74,7 @@
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home-pikaform" href="home-pikaform">Accueil</a>
           <a name="login-hunter" href="login-hunter">Se connecter</a>
-          <a name="register-login" href="register-login">S'inscrire</a>
+          <a name="register-hunter" href="register-hunter">S'inscrire</a>
           <a name="hunter-profile" href="hunter-profile">Profil</a>
         </iron-selector>
       </app-drawer>
@@ -90,7 +90,7 @@
 
         <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="not-found" role="main">
           <home-pikaform name="home-pikaform"></home-pikaform>
-          <register-login name="register-login"></register-login>
+          <register-hunter name="register-hunter"></register-hunter>
           <login-hunter name="login-hunter"></login-hunter>
           <hunter-profile name="hunter-profile"></hunter-profile>
           <not-found name="not-found"></not-found>

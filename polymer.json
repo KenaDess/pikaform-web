@@ -3,7 +3,7 @@
   "shell": "src/my-app.html",
   "fragments": [
     "src/home-pikaform.html",
-    "src/register-login.html",
+    "src/register-hunter.html",
     "src/login-hunter.html",
     "src/hunter-profile.html",
     "src/not-found.html"

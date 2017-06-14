@@ -7,7 +7,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="register-login">
+<dom-module id="register-hunter">
   <template>
     <style include="shared-styles">
       :host {
@@ -32,16 +32,26 @@
         font-size: 14px;
         padding: 10px;
       }
+
+      .alert-success {
+        background: #f2ffe8;
+        border: 1px solid #b0f4a5;
+        border-radius: 3px;
+        color: #333;
+        font-size: 14px;
+        padding: 10px;
+      }
     </style>
 
     <iron-ajax
-      id="registerLoginAjax"
+      id="registerHunterAjax"
+      url='http://localhost:8080/api/hunters/register'
       method="post"
       crossDomain="true"
       handle-as="json"
       content-type="application/json"
       on-response="handleResponse"
-      on-error="handleUserError"
+      on-error="handleError"
       debounce-duration="300"
     ></iron-ajax>
 
@@ -49,11 +59,14 @@
       <div class="circle">2</div>
 
       <div id="unauthenticated">
-        <h1>Connexion</h1>
+        <h1>Inscription</h1>
 
-        <p><strong>Se connecter</strong> ou <strong>s'inscrire</strong> pour accéder à l'arène de Pokémons !</p>
+        <p><strong>S'inscrire</strong> pour accéder à l'arène de Pokémons !</p>
 
-        <template is="dom-if" if="[[error]]">
+        <template is="dom-if" if="[[success]]">
+          <p class="alert-success"><strong>Succès :</strong> [[success]]</p>
+        </template>
+        <template is="dom-if" if="[[error.message]]">
           <p class="alert-error"><strong>Erreur:</strong> [[error.message]]</p>
         </template>
 
@@ -61,18 +74,19 @@
 
         <paper-password-input id="password" label="Mot de passe" value="{{hunter.password}}"></paper-password-input>
 
+        <paper-input label="Lien vers mon avatar" is="iron-input" id="avatar" type="text" value="{{hunter.avatar}}"></paper-input>
+
         <div class="wrapper-btns">
-          <paper-button raised class="primary" on-tap="postLogin">Se connecter</paper-button>
-          <paper-button class="link" on-tap="postRegister">S'inscrire</paper-button>
+          <paper-button raised class="primary" on-tap="postRegister">S'inscrire</paper-button>
         </div>
       </div>
     </div>
   </template>
 
   <script>
-    class RegisterLogin extends Polymer.Element {
+    class RegisterHunter extends Polymer.Element {
       static get is() {
-        return 'register-login';
+        return 'register-hunter';
       }
 
       static get properties() {
@@ -85,43 +99,26 @@
       }
 
       _setReqBody() {
-        this.$.registerLoginAjax.body = this.hunter;
-      }
-
-      postLogin() {
-        this._setReqBody();
-        this.$.registerLoginAjax.url = '';
-        this.$.registerLoginAjax.generateRequest();
+        this.$.registerHunterAjax.body = this.hunter;
       }
 
       postRegister() {
         this._setReqBody();
-        this.$.registerLoginAjax.url = 'http://localhost:8080/api/hunters/register';
-        this.$.registerLoginAjax.generateRequest();
+        this.$.registerHunterAjax.generateRequest();
       }
 
-      handleUserResponse(event) {
-        var response = JSON.parse(event.detail.response);
-
-        if (response.id_token) {
-          this.error = '';
-          this.storedUser = {
-            name: this.hunter.username,
-            id_token: response.id_token,
-            access_token: response.access_token,
-            loggedin: true,
-          };
-        }
-
-        // reset form data
+      handleResponse(event) {
+        this.error = {};
+        this.success = 'Chasseur bien créé !';
         this.hunter = {};
       }
 
-      handleUserError(event) {
+      handleError(event) {
+        this.success = '';
         this.error = event.detail.request.xhr.response;
       }
     }
 
-    window.customElements.define(RegisterLogin.is, RegisterLogin);
+    window.customElements.define(RegisterHunter.is, RegisterHunter);
   </script>
 </dom-module>
