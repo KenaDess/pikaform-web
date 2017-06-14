@@ -4,6 +4,7 @@
   "fragments": [
     "src/home-pikaform.html",
     "src/register-login.html",
+    "src/login-hunter.html",
     "src/hunter-profile.html",
     "src/not-found.html"
   ],
